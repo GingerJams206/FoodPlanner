@@ -22,6 +22,11 @@ export function RecipeProvider({children}) {
                 name: 'Scrambled Eggs',
                 ingredients: ['eggs', 'butter', 'cheese'],
                 costToMake: 3.00
+            },
+            {
+                name: 'Thai Chicken Dish',
+                ingredients: ['chicken', 'spices', 'and everything nices'],
+                costToMake: 8.00
             }
         ])
 
