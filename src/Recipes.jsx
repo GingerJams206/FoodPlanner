@@ -11,6 +11,7 @@ export default function Recipes() {
     const updateRecipes = useRecipeUpdateContext()
 
     useEffect(() => {
+        //another test to make sure its working
         if (recipes) {
             setMyRecipes(recipes)
         }

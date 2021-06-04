@@ -27,6 +27,7 @@ export function RecipeProvider({children}) {
 
         function updateRecipes() {
             console.log("From update")
+            // Easy git test yay
             // update logic here
             // setSampleRecipes stuff and all that
         }
