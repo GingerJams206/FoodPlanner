@@ -4,9 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Recipes from './Recipes';
 import Home from './Home';
 import {RecipeProvider} from './RecipeContext'
-
 import './App.css';
-
 
 export default function App() {
 
