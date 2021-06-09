@@ -6,7 +6,7 @@ import {useRecipeContext, useRecipeUpdateContext} from './RecipeContext'
 
 
 
-export default function Recipes() {
+export default function Recipes(props) {
     const recipes = useRecipeContext()
     const updateRecipes = useRecipeUpdateContext()
 
