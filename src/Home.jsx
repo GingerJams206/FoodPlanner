@@ -1,23 +1,26 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import firebase from "./firebase/index"
+import RecipeCard from './components/RecipeCard'
+import RecipeForm from './RecipeForm'
 
 export default function Home() {
-  const [todos, setTodos] = useState([])
+  const [recipes, setRecipes] = useState([])
   const db = firebase.db
-  const initState = {title: '', description: ''}
-  const [inputs, setInputs] = useState(initState)
+ // const initState = { title: '', description: '', ingredients: [{name: '', description: '', id: Math.random()}] };
+  const initState = { title: '', description: '', ingredients: [] }
+  const [recipe, setRecipe] = useState(initState)
 
   useEffect(() => {
-    setTodos([])
-    getTodos()
+    setRecipes([])
+    getRecipes()
   }, [])
 
 
-  const getTodos = () => {
-    db.collection('todo').get()
+  const getRecipes = () => {
+    db.collection('recipes').get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          setTodos(prev => ([...prev, doc.data()]))
+          setRecipes(prev => ([...prev, doc.data()]))
         })
       })
       .catch(err => {
@@ -25,15 +28,15 @@ export default function Home() {
       })
   }
   //console.log(firebase)
-  
-  const sendTodo = async (e) => {
+
+  const sendRecipe = async (e) => {
     e.preventDefault();
-    await db.collection('todo').add(inputs)
+    await db.collection('recipes').add(recipe)
       .then(async documentReference => {
         console.log("document reference ID", documentReference.id)
-        await setTodos([])
-        setInputs(initState)
-        getTodos()
+        await setRecipes([])
+        setRecipe(initState)
+        getRecipes()
       })
       .catch(error => {
         console.log(error.message)
@@ -41,30 +44,22 @@ export default function Home() {
   }
 
   const handleChange = e => {
-    const {name, value} = e.target
-    setInputs(prev => ({...prev, [name]: value}))
+    const { name, value } = e.target
+    setRecipe(prev => ({ ...prev, [name]: value }))
+    console.log(recipe)
   }
 
   return (
     <div>
       <h1>Home Page</h1>
-      <h3>Send Todo</h3>
-        {
-          todos.length === 0 ?
-            null :
-            todos.map((todo, i) => <h1 key = {i}>{todo.title}</h1>)
-        }
-      <form onSubmit = {sendTodo}>
-        <input name = 'title'
-          placeholder = 'title'
-          value = {inputs.title}
-          onChange = {handleChange} />
-        <input name = "description"
-          value = {inputs.description}
-          placeholder = "description"
-          onChange = {handleChange} />
-      </form>
-      <button onClick = {sendTodo}>click here to send</button>
+      {
+        recipes.length === 0 ?
+          null :
+          recipes.map((recipe, i) => <h1 key={i} onClick={() => setRecipe(recipe)}><RecipeCard recipe={recipe} /> </h1>)
+      }
+      <RecipeForm handleChange={handleChange} recipe={recipe} />
+      <br/>
+      <button onClick = {sendRecipe}>Submit Recipe</button>
     </div>
   )
 }
