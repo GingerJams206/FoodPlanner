@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import firebase from "./firebase/index"
+import { v4 as uuidv4 } from 'uuid'
 
-export default function RecipeForm({ recipe, handleChange }) {
+export default function RecipeForm({ recipe, handleChange, setRecipe }) {
   const [ingredients, setIngredients] = useState([])
-
   useEffect(() => {
     setIngredients(recipe?.ingredients || [])
   }, [recipe])
+
+  useEffect(() => {
+    console.log(ingredients)
+    console.log(recipe)
+  }, [ingredients])
 
   const handleIngredientChange = (e) => {
     const { id, name, value } = e.target
@@ -21,33 +25,50 @@ export default function RecipeForm({ recipe, handleChange }) {
     setIngredients(changedIngredients)
   }
 
+  const handleAddIngredient = (e) => {
+    e.preventDefault()
+    if (recipe.newIngredientName && recipe.newIngredientQty) {
+      const newIngredient = {
+        name: recipe.newIngredientName,
+        qty: recipe.newIngredientQty,
+        id: uuidv4()
+      }
+
+      
+      setIngredients([...ingredients, newIngredient])
+      recipe.ingredients = [...ingredients]
+      recipe.ingredients.push(newIngredient)
+      recipe['newIngredientName'] = ""
+      recipe['newIngredientQty'] = ""
+      setRecipe(recipe)
+    }
+  }
+
   return (
     <div>
-      <h3>Add Recipe</h3>
+      <h3>{recipe?.id ? 'Edit Recipe' : 'Add Recipe'}</h3>
       {/*<form onSubmit = {sendRecipe}> */}
       <form id="recipeForm">
-        <input name='title'
-          placeholder='title'
+        <input name='title' placeholder='title'
           value={recipe.title}
           onChange={handleChange} />
-        <input name="description"
-          value={recipe.description}
+        <input name="description" value={recipe.description}
           placeholder="description"
           onChange={handleChange} />
-        <ul>
+        <ul style={{ listStyle: 'none' }}>
           {
             ingredients?.map((ingred, i) => {
               return (
-                <li key={i}>
+                <li key={i} >
                   <input
-                    name = "name"
-                    id = {`name-${ingred.id}`}
+                    name="name"
+                    id={`name-${ingred.id}`}
                     className="ingredients name"
                     value={ingred?.name}
                     onChange={handleIngredientChange} />
                   <input
-                    name = "qty"
-                    id = {`qty-${ingred.id}`}
+                    name="qty"
+                    id={`qty-${ingred.id}`}
                     className="ingredients qty"
                     value={ingred?.qty}
                     onChange={handleIngredientChange} />
@@ -57,19 +78,21 @@ export default function RecipeForm({ recipe, handleChange }) {
           }
           <li>
             <input
-              name="new ingredient name"
+              name="newIngredientName"
               className="ingredients name"
               placeholder="add ingredient name"
+              value={recipe?.newIngredientName || ""}
               onChange={handleChange} />
             <input
-              name="new ingredient qty"
+              name="newIngredientQty"
               className="ingredients qty"
               placeholder="add ingredient qty"
+              value={recipe?.newIngredientQty || ""}
               onChange={handleChange} />
           </li>
         </ul>
       </form>
-      <button>Add Ingredient</button>
+      <button onClick={handleAddIngredient}>Add Ingredient</button>
       {/* <button onClick={sendRecipe}>click here to send</button> */}
     </div>
   )
