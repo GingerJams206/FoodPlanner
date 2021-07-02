@@ -2,13 +2,13 @@ import firebase from "firebase"
 import "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC8fIDfTlUlD7LWH48-vjvWbxSBLeuTsQ4",
-  authDomain: "fir-recipe-react-app.firebaseapp.com",
-  projectId: "fir-recipe-react-app",
-  storageBucket: "fir-recipe-react-app.appspot.com",
-  messagingSenderId: "1003530158843",
-  appId: "1:1003530158843:web:41317d4f51cdc1275e665e",
-  measurementId: "G-LLTX7LL9V5"
+  apiKey: `${process.env.REACT_APP_FIRESTORE_API_KEY}`,
+  authDomain: `${process.env.REACT_APP_FIRESTORE_AUTH_DOMAIN}`,
+  projectId: `${process.env.REACT_APP_FIRESTORE_PROJECT_ID}`,
+  storageBucket: `${process.env.REACT_APP_FIRESTORE_STORAGE_BUCKET}`,
+  messagingSenderId: `${process.env.REACT_APP_FIRESTORE_MESSAGING_SENDER_ID}`,
+  appId: `${process.env.REACT_APP_FIRESTORE_APP_ID}`,
+  measurementId: `${process.env.REACT_APP_FIRESTORE_MEASUREMENT_ID}`
 };
 
 
