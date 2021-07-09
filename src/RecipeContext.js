@@ -1,47 +1,98 @@
-import React, {useContext, useState} from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import firebase from "./firebase/index"
 
-const RecipeContext = React.createContext();
+const RecipesContext = React.createContext();
 const RecipeUpdateContext = React.createContext();
+const RecipeAddContext = React.createContext();
+const RecipeDeleteContext = React.createContext();
+
+const db = firebase.db
+const fbRecipes = db.collection('recipes')
 
 export function useRecipeContext() {
-    return useContext(RecipeContext)
+  return useContext(RecipesContext)
 }
 
 export function useRecipeUpdateContext() {
-    return useContext(RecipeUpdateContext)
+  return useContext(RecipeUpdateContext)
 }
 
-export function RecipeProvider({children}) {
-    const [sampleRecipes, setSampleRecipes] = useState([
-            {
-                name: 'Chicken and Waffles',
-                ingredients: ['chicken', 'waffles', 'butter'],
-                costToMake: 8.00
-            },
-            {
-                name: 'Scrambled Eggs',
-                ingredients: ['eggs', 'butter', 'cheese'],
-                costToMake: 3.00
-            },
-            {
-                name: 'Thai Chicken Dish',
-                ingredients: ['chicken', 'spices', 'and everything nices'],
-                costToMake: 8.00
-            }
-        ])
+export function useRecipeAddContext() {
+  return useContext(RecipeAddContext)
+}
 
-        function updateRecipes() {
-            console.log("From update")
-            // Easy git test yay
-            // update logic here
-            // setSampleRecipes stuff and all that
-        }
+export function useRecipeDeleteContext() {
+  return useContext(RecipeDeleteContext)
+}
 
-    return (
-        <RecipeContext.Provider value = {sampleRecipes}>
-            <RecipeUpdateContext.Provider value = {updateRecipes}>
-                {children}
-            </RecipeUpdateContext.Provider>
-        </RecipeContext.Provider>
-    )
+export function RecipeProvider({ children }) {
+  const [recipes, setRecipes] = useState([])
+
+  useEffect(() => {
+    setRecipes([])
+    getRecipes()
+  }, [])
+
+  const getRecipes = () => {
+    fbRecipes.get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          setRecipes(prev => ([...prev, doc.data()]))
+        })
+      })
+      .catch(err => {
+        console.log(err.message)
+      })
+  }
+
+  const editRecipe = (recipe) => {
+    fbRecipes.doc(recipe.id)
+      .update(recipe)
+      .then(() => {
+        setRecipes([])
+        getRecipes()
+      })
+      .catch((err) => {
+        console.error(err)
+      });
+  }
+
+  const addRecipe = async (recipe) => {
+    if (recipe.ingredients.length === 0) return
+
+    recipe.id = uuidv4();
+    await fbRecipes.doc(recipe.id)
+      .set(recipe)
+      .then(() => {
+        setRecipes([])
+        getRecipes()
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
+  }
+
+  const deleteRecipe = (recipe) => {
+    fbRecipes.doc(recipe.id).delete()
+      .then(() => {
+        setRecipes([])
+        getRecipes()
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }
+
+  return (
+    <RecipesContext.Provider value={recipes}>
+      <RecipeUpdateContext.Provider value={editRecipe}>
+        <RecipeAddContext.Provider value={addRecipe}>
+          <RecipeDeleteContext.Provider value={deleteRecipe}>
+            {children}
+          </RecipeDeleteContext.Provider>
+        </RecipeAddContext.Provider>
+      </RecipeUpdateContext.Provider>
+    </RecipesContext.Provider>
+  )
 }
