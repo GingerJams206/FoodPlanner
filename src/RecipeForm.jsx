@@ -3,14 +3,10 @@ import { v4 as uuidv4 } from 'uuid'
 
 export default function RecipeForm({ recipe, handleChange, setRecipe }) {
   const [ingredients, setIngredients] = useState([])
+  
   useEffect(() => {
     setIngredients(recipe?.ingredients || [])
   }, [recipe])
-
-  useEffect(() => {
-    console.log(ingredients)
-    console.log(recipe)
-  }, [ingredients])
 
   const handleIngredientChange = (e) => {
     const { id, name, value } = e.target
@@ -93,7 +89,6 @@ export default function RecipeForm({ recipe, handleChange, setRecipe }) {
         </ul>
       </form>
       <button onClick={handleAddIngredient}>Add Ingredient</button>
-      {/* <button onClick={sendRecipe}>click here to send</button> */}
     </div>
   )
 }
