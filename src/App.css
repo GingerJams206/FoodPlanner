@@ -19,3 +19,23 @@ nav {
   list-style: none;
 }
 
+#home-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-top: 8%;
+}
+
+#recipes-pane {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#calendar-pane {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+}
+

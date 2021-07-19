@@ -5,6 +5,7 @@ import Recipes from './Recipes';
 import Home from './Home';
 import {RecipeProvider} from './RecipeContext'
 import './App.css';
+import 'react-calendar/dist/Calendar.css';
 
 export default function App() {
 
