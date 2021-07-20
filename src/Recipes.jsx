@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState } from 'react'
 import RecipeCard from './components/RecipeCard'
 import RecipeForm from './RecipeForm'
 import { Container } from 'semantic-ui-react'
 import './Recipes.css'
-import * as RecipeContext from './RecipeContext'
+import * as RecipeContext from './contexts/RecipeContext.js'
 
 export default function Recipes() {
   const initState = { title: '', description: '', ingredients: [] }
