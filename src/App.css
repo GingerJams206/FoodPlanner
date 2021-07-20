@@ -39,3 +39,8 @@ nav {
   justify-content: space-around;
 }
 
+#showMealModal-btn {
+  width: 25%;
+  align-self: center;
+}
+

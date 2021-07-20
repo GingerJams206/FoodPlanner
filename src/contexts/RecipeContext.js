@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import firebase from "./firebase/index"
+import firebase from "../firebase/index"
 
 const RecipesContext = React.createContext();
 const RecipeUpdateContext = React.createContext();
