@@ -66,6 +66,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    setCalendarMeals([])
     meals?.map((meal) => {
       const calendarMeal = {
         id: meal.id,
@@ -74,7 +75,6 @@ export default function Home() {
         start: new Date(meal.date),
         end: new Date(meal.date)
       }
-      console.log(calendarMeal)
       setCalendarMeals(calendarMeals => ([...calendarMeals, calendarMeal]))
     })
   }, [meals])
