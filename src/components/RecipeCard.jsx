@@ -1,9 +1,9 @@
 import React from 'react';
 
-function RecipeCard({ recipe }) {
+function RecipeCard({ recipe, createMeal }) {
   return (
     <>
-      {recipe?.title}
+      <span onClick={() => createMeal(recipe)}> {recipe?.title}</span>
     </>
   )
 }

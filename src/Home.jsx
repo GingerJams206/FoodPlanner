@@ -8,6 +8,7 @@ import moment from 'moment'
 
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+import RecipeCard from './components/RecipeCard.jsx'
 
 
 export default function Home() {
@@ -48,7 +49,6 @@ export default function Home() {
   const selectMeal = (id) => {
     const filteredMeal = meals.filter(meal => meal.id === id)
     const selectedMeal = filteredMeal[0]
-
     selectedMeal.date = moment(selectedMeal.date).format('YYYY-MM-DD').toString()
     setMeal(selectedMeal)
     setMealModalOpen(true)
@@ -63,6 +63,14 @@ export default function Home() {
       const { name, value } = eTarget
       setMeal(prev => ({ ...prev, [name]: value }))
     }
+  }
+
+  const createMealFromRecipe = (recipe) => {
+    const newMeal = initState
+
+    newMeal.recipe = recipe.title
+    setMeal(newMeal)
+    setMealModalOpen(true)
   }
 
   useEffect(() => {
@@ -85,7 +93,7 @@ export default function Home() {
         {
           recipes?.length === 0 ?
             null :
-            recipes.map((recipe, i) => <h1 key={i} >{`${recipe.title}`}</h1>)
+            recipes.map((recipe, i) => <h1 key={i} ><RecipeCard recipe = {recipe} createMeal = {createMealFromRecipe} /></h1>)
         }
         <Modal
           onClose={() => setMealModalOpen(false)}
@@ -101,6 +109,7 @@ export default function Home() {
             handleChange={handleChange}
             clearMeal={clearMeal}
             addMeal={handleAddMeal}
+            editMeal = {handleEditMeal}
           />
         </Modal>
       </div>
