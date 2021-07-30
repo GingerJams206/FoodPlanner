@@ -48,6 +48,7 @@ export function MealProvider({ children }) {
   }
 
   const editMeal = (meal) => {
+    meal.date = moment(meal.date).format();
     fbMeals.doc(meal.id)
       .update(meal)
       .then(() => {

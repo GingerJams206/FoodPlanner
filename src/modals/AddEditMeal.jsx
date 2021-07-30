@@ -3,7 +3,7 @@ import { Button, Modal, Form, Dropdown } from 'semantic-ui-react'
 import "./AddEditMeal.css"
 
 
-export default function AddEditMeal({ recipes, toggleOpen, meal, handleChange, clearMeal, addMeal }) {
+export default function AddEditMeal({ recipes, toggleOpen, meal, handleChange, clearMeal, addMeal, editMeal }) {
   const [loading, setLoading] = useState(false)
   const [recipeOptions, setRecipeOptions] = useState([{ key: '', value: '', text: '' }])
   const mealTypes = [
@@ -24,13 +24,18 @@ export default function AddEditMeal({ recipes, toggleOpen, meal, handleChange, c
   }
 
   const saveMeal = () => {
-    const {recipe, mealType} = meal
+    const { recipe, mealType } = meal
     if (recipe.length === 0 || mealType.length === 0) {
       alert("Please finish creating this meal!")
       return;
     }
 
-    addMeal(meal)
+    if (meal.id) {
+      editMeal(meal)
+    } else {
+      addMeal(meal)
+    }
+
     handleCloseModal()
 
   }
