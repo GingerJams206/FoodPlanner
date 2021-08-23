@@ -5,7 +5,7 @@ import "./AddEditMeal.css"
 
 export default function AddEditMeal({ recipes, toggleOpen, meal, handleChange, clearMeal, addMeal, editMeal }) {
   const [loading, setLoading] = useState(false)
-  const [recipeOptions, setRecipeOptions] = useState([{ key: '', value: '', text: '' }])
+  const [recipeOptions, setRecipeOptions] = useState([{ key: null, value: null, text: null }])
   const mealTypes = [
     {
       key: 0, value: 'Breakfast', text: 'Breakfast'
@@ -55,7 +55,7 @@ export default function AddEditMeal({ recipes, toggleOpen, meal, handleChange, c
 
   return (
     <>
-      <Modal.Header>Add Meal</Modal.Header>
+      <Modal.Header>{meal.recipe ? "Edit Meal" : "Add Meal"}</Modal.Header>
       <Modal.Content id="addEditMeal-body">
         <Form>
           <Form.Field>
