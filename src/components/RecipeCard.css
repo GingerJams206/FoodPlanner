@@ -1,0 +1,14 @@
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  border-style: solid;
+}
+
+.card-title{
+  font-size: larger;
+}
+
+.card-description {
+  font-size: large;
+}
+
