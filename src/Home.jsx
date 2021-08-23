@@ -94,7 +94,7 @@ export default function Home() {
           {
             recipes?.length === 0 ?
               null :
-              recipes.map((recipe, i) => <h1 key={i} ><RecipeCard recipe={recipe} createMeal={createMealFromRecipe} /></h1>)
+              recipes.map((recipe, i) => <h1 key={i} onClick={() => createMealFromRecipe(recipe)} ><RecipeCard recipe={recipe} /></h1>)
           }
         </div>
         <Modal
