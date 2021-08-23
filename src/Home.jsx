@@ -89,17 +89,19 @@ export default function Home() {
 
   return (
     <div id="home-page">
-      <div id="recipes-pane">
-        {
-          recipes?.length === 0 ?
-            null :
-            recipes.map((recipe, i) => <h1 key={i} ><RecipeCard recipe = {recipe} createMeal = {createMealFromRecipe} /></h1>)
-        }
+      <div id="meal-editing-pane">
+        <div id="recipes-pane">
+          {
+            recipes?.length === 0 ?
+              null :
+              recipes.map((recipe, i) => <h1 key={i} ><RecipeCard recipe={recipe} createMeal={createMealFromRecipe} /></h1>)
+          }
+        </div>
         <Modal
           onClose={() => setMealModalOpen(false)}
           onOpen={() => setMealModalOpen(true)}
           open={mealModalOpen}
-          trigger={<Button id="showMealModal-btn" size="small">Show Modal</Button>}
+          trigger={<Button id="showMealModal-btn" size="small">Add Meal</Button>}
           size="tiny"
         >
           <AddEditMeal
@@ -109,10 +111,12 @@ export default function Home() {
             handleChange={handleChange}
             clearMeal={clearMeal}
             addMeal={handleAddMeal}
-            editMeal = {handleEditMeal}
+            editMeal={handleEditMeal}
           />
         </Modal>
       </div>
+
+
       <div id="calendar-pane">
         <Calendar events={calendarMeals} localizer={localizer} selectable onSelectEvent={event => selectMeal(event.id)} />
       </div>

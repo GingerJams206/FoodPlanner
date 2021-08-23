@@ -24,11 +24,17 @@ nav {
   flex-direction: row;
   justify-content: space-around;
   padding-top: 8%;
-  height: 50em;
+  height: 70em;
+}
+
+#meal-editing-pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
 }
 
 #recipes-pane {
-  width: 35%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,11 +43,12 @@ nav {
 #calendar-pane {
   width: 55%;
   justify-content: space-around;
-  height: auto;
+  height: 90%;
 }
 
 #showMealModal-btn {
   width: 25%;
   align-self: center;
+  margin-top: 5%;
 }
 
