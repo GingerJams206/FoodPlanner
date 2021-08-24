@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { Button, Modal, Form, Dropdown, Input } from 'semantic-ui-react'
+import './RecipeForm.css'
 
 export default function RecipeForm({ recipe, handleChange, setRecipe }) {
   const [ingredients, setIngredients] = useState([])
-  
+
   useEffect(() => {
     setIngredients(recipe?.ingredients || [])
   }, [recipe])
@@ -30,7 +32,7 @@ export default function RecipeForm({ recipe, handleChange, setRecipe }) {
         id: uuidv4()
       }
 
-      
+
       setIngredients([...ingredients, newIngredient])
       recipe.ingredients = [...ingredients]
       recipe.ingredients.push(newIngredient)
@@ -44,51 +46,60 @@ export default function RecipeForm({ recipe, handleChange, setRecipe }) {
     <div>
       <h3>{recipe?.id ? 'Edit Recipe' : 'Add Recipe'}</h3>
       {/*<form onSubmit = {sendRecipe}> */}
-      <form id="recipeForm">
-        <input name='title' placeholder='title'
-          value={recipe.title}
-          onChange={handleChange} />
-        <input name="description" value={recipe.description}
-          placeholder="description"
-          onChange={handleChange} />
-        <ul style={{ listStyle: 'none' }}>
+      <Form id="recipe-form">
+        <div id="recipe-title">
+          <Form.Group widths = "equal">
+            <Form.Field name='title' placeholder='title' control = 'input'
+              value={recipe.title}
+              onChange={handleChange} />
+            <Form.Field name="description" value={recipe.description} control = 'input'
+              placeholder="description"
+              onChange={handleChange} />
+          </Form.Group>
+        </div>
+        <div id="recipe-ingredients">
           {
             ingredients?.map((ingred, i) => {
               return (
-                <li key={i} >
-                  <input
+                <Form.Group widths = "equal" key={i} >
+                  <Form.Field
                     name="name"
                     id={`name-${ingred.id}`}
+                    control = 'input'
                     className="ingredients name"
                     value={ingred?.name}
                     onChange={handleIngredientChange} />
-                  <input
+                  <Form.Field
                     name="qty"
                     id={`qty-${ingred.id}`}
+                    control = 'input'
                     className="ingredients qty"
                     value={ingred?.qty}
                     onChange={handleIngredientChange} />
-                </li>
+                </Form.Group>
               )
             })
           }
-          <li>
-            <input
+          <Form.Group widths = "equal">
+            <Form.Field
               name="newIngredientName"
               className="ingredients name"
+              control = 'input'
               placeholder="add ingredient name"
               value={recipe?.newIngredientName || ""}
               onChange={handleChange} />
-            <input
+            <Form.Field
               name="newIngredientQty"
               className="ingredients qty"
+              control = 'input'
               placeholder="add ingredient qty"
               value={recipe?.newIngredientQty || ""}
               onChange={handleChange} />
-          </li>
-        </ul>
-      </form>
-      <button onClick={handleAddIngredient}>Add Ingredient</button>
+          </Form.Group>
+        </div>
+        <Button onClick={handleAddIngredient}>Add Ingredient</Button>
+      </Form>
+      
     </div>
   )
 }

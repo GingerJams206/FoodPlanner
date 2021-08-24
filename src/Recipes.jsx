@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import RecipeCard from './components/RecipeCard'
 import RecipeForm from './RecipeForm'
-import { Container } from 'semantic-ui-react'
+import { Container, Button } from 'semantic-ui-react'
 import './Recipes.css'
 import * as RecipeContext from './contexts/RecipeContext.js'
 
@@ -40,20 +40,23 @@ export default function Recipes() {
 
 
   return (
-    <Container className="recipePageBody">
-      <div>
-        {
-          recipes.length === 0 ?
-            null :
-            recipes.map((recipe, i) => <h1 key={i} onClick={() => setRecipe(recipe)}><RecipeCard recipe={recipe} /> </h1>)
-        }
-        <RecipeForm handleChange={handleChange} recipe={recipe} setRecipe={setRecipe} />
-        <br />
-        <button onClick={recipe?.id ? () => handleEditRecipe(recipe) : () => handleAddRecipe(recipe)}>{recipe?.id ? 'Update Recipe' : 'Add Recipe'}</button>
-        <button onClick={clearRecipe}>Clear Recipe</button>
-        <button onClick={() => handleDeleteRecipe(recipe)} disabled={recipe?.id ? false : true}>Delete Recipe</button>
+    <Container>
+      <div id="recipe-page-body">
+        <div id="recipe-edit-pane">
+          <RecipeForm handleChange={handleChange} recipe={recipe} setRecipe={setRecipe} />
+          <br />
+          <Button onClick={recipe?.id ? () => handleEditRecipe(recipe) : () => handleAddRecipe(recipe)}>{recipe?.id ? 'Update Recipe' : 'Add Recipe'}</Button>
+          <Button onClick={clearRecipe}>Clear Recipe</Button>
+          <Button onClick={() => handleDeleteRecipe(recipe)} disabled={recipe?.id ? false : true}>Delete Recipe</Button>
+        </div>
+        <div id="recipe-list-pane">
+          {
+            recipes.length === 0 ?
+              null :
+              recipes.map((recipe, i) => <h1 key={i} onClick={() => setRecipe(recipe)}><RecipeCard recipe={recipe} /> </h1>)
+          }
+        </div>
       </div>
-
     </Container>
   )
 }
