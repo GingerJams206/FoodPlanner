@@ -1,5 +1,13 @@
-.recipePageBody {
+#recipe-page-body {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+#recipe-edit-pane {
+    width: 55%;
+}
+
+#recipe-list-pane {
+    width: 35%;
 }
