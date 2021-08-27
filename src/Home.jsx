@@ -9,11 +9,13 @@ import moment from 'moment'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import RecipeCard from './components/RecipeCard.jsx'
+import IngredientList from './modals/IngredientList.jsx'
 
 
 export default function Home() {
   const [loading, setLoading] = useState(false)
   const [mealModalOpen, setMealModalOpen] = useState(false)
+  const [listModalOpen, setListModalOpen] = useState(false)
   const recipes = RecipeContext.useRecipeContext()
   const meals = MealContext.useMealContext()
 
@@ -25,6 +27,9 @@ export default function Home() {
   const [meal, setMeal] = useState(initState)
 
   const [calendarMeals, setCalendarMeals] = useState([])
+  const [targetedMeals, setTargetedMeals] = useState([])
+  const [listIngredients, setListIngredients] = useState([])
+
   const localizer = momentLocalizer(moment)
 
   const handleAddMeal = (meal) => {
@@ -40,6 +45,35 @@ export default function Home() {
   const handleDeleteMeal = (meal) => {
     deleteMeal(meal)
     setMeal(initState)
+  }
+
+  const handleSelectSlot = ({ start, end, resourceId }, calendarMeals) => {
+    setTargetedMeals([])
+    const rangeStart = new Date(moment(start).format('YYYY-MM-DD'));
+    const rangeEnd = new Date(moment(end).format('YYYY-MM-DD'))
+
+    const inRangeMeals = calendarMeals.filter(meal => meal.start >= rangeStart && meal.end <= rangeEnd)
+
+    for (let meal of inRangeMeals) {
+      const matchingRecipe = recipes.filter(recipe => meal.title.includes(recipe.title));
+      setTargetedMeals(targetedMeals => ([...targetedMeals, matchingRecipe[0]]))
+    }
+  }
+
+  const handleCreateList = () => {
+    const ingredients = []
+    setListIngredients([])
+    for (let meal of targetedMeals) {
+      meal.ingredients.map((ingred) => {
+        const matchingIngreds = ingredients.filter(i => i.name === ingred.name);
+        if (matchingIngreds.length === 0) ingredients.push({ name: ingred.name, qty: ingred.qty })
+      })
+    }
+    setListIngredients(ingredients)
+  }
+
+  const clearIngredients = () => {
+    setListIngredients([])
   }
 
   const clearMeal = () => {
@@ -98,6 +132,19 @@ export default function Home() {
           }
         </div>
         <Modal
+          onClose={() => setListModalOpen(false)}
+          onOpen={() => setListModalOpen(true)}
+          open={listModalOpen}
+          trigger={<Button id="showListModal-btn" onClick = {handleCreateList} size="small">Make List</Button>}
+          size="tiny"
+        >
+          <IngredientList
+            ingredients={listIngredients}
+            toggleOpen={setListModalOpen}
+            clearIngredients = {clearIngredients}
+          />
+        </Modal>
+        <Modal
           onClose={() => setMealModalOpen(false)}
           onOpen={() => setMealModalOpen(true)}
           open={mealModalOpen}
@@ -118,7 +165,7 @@ export default function Home() {
 
 
       <div id="calendar-pane">
-        <Calendar events={calendarMeals} localizer={localizer} selectable onSelectEvent={event => selectMeal(event.id)} />
+        <Calendar onSelectSlot={e => handleSelectSlot(e, calendarMeals)} events={calendarMeals} localizer={localizer} selectable onSelectEvent={event => selectMeal(event.id)} />
       </div>
     </div>
   )
