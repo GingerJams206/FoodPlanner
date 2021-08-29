@@ -47,6 +47,7 @@ export function RecipeProvider({ children }) {
   }
 
   const editRecipe = (recipe) => {
+    debugger
     fbRecipes.doc(recipe.id)
       .update(recipe)
       .then(() => {

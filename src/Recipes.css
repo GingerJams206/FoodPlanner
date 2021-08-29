@@ -1,3 +1,7 @@
+#recipes-page-container {
+    width: 1500px;
+}
+
 #recipe-page-body {
     display: flex;
     flex-flow: row nowrap;

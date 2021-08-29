@@ -33,14 +33,23 @@ export default function Recipes() {
     setRecipe(initState)
   }
 
-  const handleChange = e => {
-    const { name, value } = e.target
-    setRecipe(prev => ({ ...prev, [name]: value }))
+  const handleChange = (e, data) => {
+    if (!data) {
+      const { name, value } = e.target
+      setRecipe(prev => ({ ...prev, [name]: value }))
+    } else {
+      const { name, checked, value } = data
+      if (name === "newIngredientUnit") {
+        setRecipe(prev => ({ ...prev, [name]: value }))
+      } else {
+        setRecipe(prev => ({ ...prev, [name]: checked }))
+      }
+    }
   }
 
 
   return (
-    <Container>
+    <Container id="recipes-page-container">
       <div id="recipe-page-body">
         <div id="recipe-edit-pane">
           <RecipeForm handleChange={handleChange} recipe={recipe} setRecipe={setRecipe} />
