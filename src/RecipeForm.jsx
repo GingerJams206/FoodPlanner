@@ -7,17 +7,16 @@ export default function RecipeForm({ recipe, handleChange, setRecipe }) {
   const [ingredients, setIngredients] = useState([])
 
   const unitOptions = [
-    { key: 'liquid-teaspoon', text: 'Teaspoon(s) (liq)', value: 'liquid-teaspoon' },
-    { key: 'liquid-tablespoon', text: 'Tablespoon(s) (liq)', value: 'liquid-tablespoon' },
+
+    { key: 'teaspoon', text: 'Teaspoon(s)', value: 'teaspoon' },
+    { key: 'tablespoon', text: 'Tablespoon(s)', value: 'tablespoon' },
+    { key: 'dry-cup', text: 'Cup(s)', value: 'dry-cup' },
+    { key: 'dry-pound', text: 'Pound(s)', value: 'dry-pound' },
+
     { key: 'liquid-cup', text: 'Cup(s) (liq)', value: 'liquid-cup' },
     { key: 'liquid-pint', text: 'Pint(s) (liq)', value: 'liquid-pint' },
     { key: 'liquid-quart', text: 'Quart(s) (liq)', value: 'liquid-quart' },
-    { key: 'liquid-gallon', text: 'Gallon(s) (liq)', value: 'liquid-gallon' },
-
-    { key: 'dry-teaspoon', text: 'Teaspoon(s)', value: 'dry-teaspoon' },
-    { key: 'dry-tablespoon', text: 'Tablespoon(s)', value: 'dry-tablespoon' },
-    { key: 'dry-cup', text: 'Cup(s)', value: 'dry-cup' },
-    { key: 'dry-pound', text: 'Pound(s)', value: 'dry-pound' }
+    { key: 'liquid-gallon', text: 'Gallon(s) (liq)', value: 'liquid-gallon' }
   ]
 
 
@@ -111,7 +110,7 @@ export default function RecipeForm({ recipe, handleChange, setRecipe }) {
                     onChange={handleIngredientChange} />
                   <Form.Field>
                     < Checkbox id={`custom-flag-${ingred.id}`} toggle label="Set Custom Unit" name="customUnitBool"
-                      defaultChecked={false} checked={ingred?.customUnitBool} onChange={handleIngredientChange} />
+                      checked={ingred?.customUnitBool} onChange={handleIngredientChange} />
                   </Form.Field>
                   {
                     ingred?.customUnitBool ?

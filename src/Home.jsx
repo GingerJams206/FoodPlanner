@@ -66,7 +66,14 @@ export default function Home() {
     for (let meal of targetedMeals) {
       meal.ingredients.map((ingred) => {
         const matchingIngreds = ingredients.filter(i => i.name === ingred.name);
-        if (matchingIngreds.length === 0) ingredients.push({ name: ingred.name, qty: ingred.qty })
+        if (matchingIngreds.length === 0) {
+          ingredients.push({ name: ingred.name, qty: ingred.qty, unit: ingred.unit || "" })
+        } else {
+          const existingIngred = matchingIngreds[0]
+          let parsedQty = parseInt(existingIngred.qty)
+          existingIngred.qty = parsedQty + parseInt(ingred.qty)
+          setListIngredients(ingredients => ([...ingredients, existingIngred]))
+        }
       })
     }
     setListIngredients(ingredients)
@@ -135,13 +142,13 @@ export default function Home() {
           onClose={() => setListModalOpen(false)}
           onOpen={() => setListModalOpen(true)}
           open={listModalOpen}
-          trigger={<Button id="showListModal-btn" onClick = {handleCreateList} size="small">Make List</Button>}
+          trigger={<Button id="showListModal-btn" onClick={handleCreateList} size="small">Make List</Button>}
           size="tiny"
         >
           <IngredientList
             ingredients={listIngredients}
             toggleOpen={setListModalOpen}
-            clearIngredients = {clearIngredients}
+            clearIngredients={clearIngredients}
           />
         </Modal>
         <Modal
