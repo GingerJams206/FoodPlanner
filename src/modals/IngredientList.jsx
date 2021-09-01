@@ -27,7 +27,7 @@ export default function IngredientList({ ingredients, toggleOpen, clearIngredien
                 <Form.Field
                   className="ingredients qty"
                   control='input'
-                  value={ingred.qty || ""}
+                  value={`${ingred.qty} ${ingred.unit || ""}` || ""}
                   readOnly />
               </Form.Group>
             )
