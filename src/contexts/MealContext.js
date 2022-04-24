@@ -31,6 +31,7 @@ export function MealProvider({ children }) {
   const [meals, setMeals] = useState([])
 
   useEffect(() => {
+    console.log("here - meal context")
     setMeals([])
     getMeals()
   }, [])

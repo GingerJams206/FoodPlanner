@@ -30,16 +30,19 @@ export function RecipeProvider({ children }) {
   const [recipes, setRecipes] = useState([])
 
   useEffect(() => {
-    setRecipes([])
+    console.log("here - recipe context")
     getRecipes()
-  }, [])
+  }, [fbRecipes])
 
   const getRecipes = () => {
+    let docRecipes = [] // TODO: This is a fix for the data loading twice
     fbRecipes.get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
-          setRecipes(prev => ([...prev, doc.data()]))
+          const recipe = doc.data()
+          docRecipes = [...docRecipes, recipe]
         })
+        setRecipes(docRecipes)
       })
       .catch(err => {
         console.log(err.message)
