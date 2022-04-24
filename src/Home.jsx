@@ -18,7 +18,6 @@ export default function Home() {
   const [listModalOpen, setListModalOpen] = useState(false)
   const recipes = RecipeContext.useRecipeContext()
   const meals = MealContext.useMealContext()
-
   const editMeal = MealContext.useMealUpdateContext()
   const addMeal = MealContext.useMealAddContext()
   const deleteMeal = MealContext.useMealDeleteContext()
@@ -115,7 +114,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    setCalendarMeals([])
+    console.log("here - home")
     meals?.map((meal) => {
       const calendarMeal = {
         id: meal.id,
@@ -126,7 +125,7 @@ export default function Home() {
       }
       setCalendarMeals(calendarMeals => ([...calendarMeals, calendarMeal]))
     })
-  }, [meals])
+  }, [])
 
   return (
     <div id="home-page">
